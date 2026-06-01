@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+  <!-- SEO -->
+  <title>HouseRecall — Remember Where Everything Lives</title>
+  <meta name="description" content="HouseRecall is your private, offline home memory. No login, no cloud, no tracking — just you and your stuff." />
+  <link rel="canonical" href="https://houserecall.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://houserecall.com/" />
+  <meta property="og:title" content="HouseRecall — Remember Where Everything Lives" />
+  <meta property="og:description" content="Stop hunting through every drawer. HouseRecall remembers where you put things — privately, locally, no account needed." />
+  <meta property="og:image" content="https://houserecall.com/assets/og-image.png" />
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HouseRecall — Remember Where Everything Lives" />
+  <meta name="twitter:description" content="Stop hunting through every drawer. HouseRecall remembers where you put things — privately, locally, no account needed." />
+  <meta name="twitter:image" content="https://houserecall.com/assets/og-image.png" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ SKIP LINK ═══ -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ═══════════════════════════════════════ HEADER ═══════ -->
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🏠</span>
+        <span class="brand-name">HouseRecall</span>
+      </div>
+      <nav class="header-nav" aria-label="Main navigation">
+        <button class="nav-btn" id="btn-how-it-works" aria-haspopup="dialog">
+          <span aria-hidden="true">✨</span> How It Works
+        </button>
+        <button class="nav-btn nav-btn--icon" id="btn-import" title="Import your house" aria-label="Import house file">
+          <span aria-hidden="true">📥</span>
+          <span class="btn-label">Import</span>
+        </button>
+        <button class="nav-btn nav-btn--icon nav-btn--accent" id="btn-export" title="Export your house" aria-label="Export house file">
+          <span aria-hidden="true">📤</span>
+          <span class="btn-label">Export</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════ MAIN ════════ -->
+  <main id="main-content" class="app-main">
+
+    <!-- ── SEARCH BAR ──────────────────────────────────────── -->
+    <section class="search-section" aria-label="Find something">
+      <div class="search-wrap">
+        <label for="search-input" class="search-label">
+          <span class="search-emoji" aria-hidden="true">🔍</span>
+          <span class="sr-only">Search for an item</span>
+        </label>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Where's my passport? Search anything…"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          aria-label="Search for items"
+          aria-autocomplete="list"
+          aria-controls="search-results"
+          aria-expanded="false"
+        />
+        <button class="search-clear" id="btn-search-clear" aria-label="Clear search" hidden>
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+      <!-- Search Results -->
+      <div
+        id="search-results"
+        class="search-results"
+        role="listbox"
+        aria-label="Search results"
+        aria-live="polite"
+        hidden
+      ></div>
+    </section>
+
+    <!-- ── QUICK ACTIONS ───────────────────────────────────── -->
+    <section class="quick-actions" aria-label="Quick actions">
+      <button class="action-card" id="btn-add-item" aria-label="Store a new item">
+        <span class="action-icon" aria-hidden="true">📦</span>
+        <span class="action-title">Store Something</span>
+        <span class="action-hint">Tell me where you put it</span>
+      </button>
+      <button class="action-card" id="btn-add-location" aria-label="Add a new location">
+        <span class="action-icon" aria-hidden="true">📍</span>
+        <span class="action-title">Add a Room</span>
+        <span class="action-hint">Bedroom, loft, drawer…</span>
+      </button>
+    </section>
+
+    <!-- ── STARRED ITEMS ───────────────────────────────────── -->
+    <section class="starred-section" id="starred-section" aria-label="Starred items" hidden>
+      <h2 class="section-heading">
+        <span aria-hidden="true">⭐</span> Your Favourites
+      </h2>
+      <div class="starred-list" id="starred-list" role="list" aria-label="Starred items"></div>
+    </section>
+
+    <!-- ── HOUSE BROWSER ───────────────────────────────────── -->
+    <section class="browse-section" aria-label="Browse your house">
+      <div class="section-header">
+        <h2 class="section-heading">
+          <span aria-hidden="true">🏡</span> Your House
+        </h2>
+        <span class="item-count" id="total-count" aria-live="polite"></span>
+      </div>
+
+      <!-- Breadcrumb trail -->
+      <nav class="breadcrumb" id="breadcrumb" aria-label="Location path" hidden>
+        <ol class="breadcrumb-list" id="breadcrumb-list"></ol>
+      </nav>
+
+      <!-- Location grid -->
+      <div
+        class="locations-grid"
+        id="locations-grid"
+        role="list"
+        aria-label="Locations"
+        aria-dropeffect="move"
+      ></div>
+
+      <!-- Items in current location -->
+      <div class="items-list" id="items-list" role="list" aria-label="Items in this location"></div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state" hidden>
+        <p class="empty-emoji" aria-hidden="true">📭</p>
+        <p class="empty-title">Nothing here yet!</p>
+        <p class="empty-hint">Add a room to get started — your future self will thank you. 😄</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="app-footer" role="contentinfo">
+    <p>
+      HouseRecall runs entirely in your browser.
+      <a href="privacy.html">Privacy Policy</a> ·
+      <a href="terms.html">Terms of Use</a>
+    </p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ MODALS ═══════ -->
+
+  <!-- HOW IT WORKS -->
+  <div
+    class="modal-overlay"
+    id="modal-how-it-works"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-hiw-title"
+    hidden
+  >
+    <div class="modal" tabindex="-1">
+      <button class="modal-close" data-modal="modal-how-it-works" aria-label="Close">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji" aria-hidden="true">✨</span>
+        <h2 id="modal-hiw-title" class="modal-title">How HouseRecall Works</h2>
+        <p class="modal-subtitle">Simple, private, and totally in your hands.</p>
+      </div>
+      <div class="modal-body">
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">🧠</span>
+          <div>
+            <h3>Your personal memory upgrade</h3>
+            <p>HouseRecall is dead simple: add rooms, add stuff, find stuff instantly. No tutorials required — if you've ever used a sticky note, you're already an expert.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">🔒</span>
+          <div>
+            <h3>Privacy-first, always</h3>
+            <p>Your data lives entirely in <strong>your browser</strong>. Nothing is sent to any server, ever. No accounts, no sign-ups, no tracking pixels, no cookies following you around the internet. It's your home — it should stay private.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">🚫</span>
+          <div>
+            <h3>No login. Seriously.</h3>
+            <p>We don't have a login page. We don't have a server to log into. There's no "Forgot password?" because there's no password to forget. Open the page, start using it — that's it.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">💾</span>
+          <div>
+            <h3>Your data, full control</h3>
+            <p>Everything is stored locally using your browser's IndexedDB — it persists between sessions automatically. Export your entire house to a <code>.house</code> file any time. Import it on another device. You own the file, you own the data.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">🔐</span>
+          <div>
+            <h3>Military-grade encryption (no exaggeration)</h3>
+            <p>When you export, your data is encrypted with <strong>AES-256-GCM</strong> using a password you choose. The password never leaves your browser. Even if someone finds your <code>.house</code> file, it's unreadable without your password.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">✈️</span>
+          <div>
+            <h3>Works offline, always</h3>
+            <p>No internet connection needed — ever. HouseRecall runs entirely in your browser with zero cloud dependency. Use it on a plane, in a basement, on a desert island. As long as your browser works, it works.</p>
+          </div>
+        </div>
+
+        <div class="hiw-block">
+          <span class="hiw-icon" aria-hidden="true">🎒</span>
+          <div>
+            <h3>Take it anywhere</h3>
+            <p>Export your <code>.house</code> file and import it on any device — phone, laptop, tablet. Handy when you're at one home and need to remember what's stored at another.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--primary" data-modal="modal-how-it-works">Got it, let's go! 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT ITEM -->
+  <div
+    class="modal-overlay"
+    id="modal-item"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-item-title"
+    hidden
+  >
+    <div class="modal" tabindex="-1">
+      <button class="modal-close" data-modal="modal-item" aria-label="Close">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji" id="modal-item-emoji" aria-hidden="true">📦</span>
+        <h2 id="modal-item-title" class="modal-title">Store Something</h2>
+        <p class="modal-subtitle">Where did you squirrel it away?</p>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="item-name" class="form-label">What is it? <span class="required" aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="item-name"
+            class="form-input"
+            placeholder="e.g. Passport, HDMI cable, birthday candles…"
+            autocomplete="off"
+            aria-required="true"
+            aria-describedby="item-name-error"
+            maxlength="200"
+          />
+          <span class="form-error" id="item-name-error" role="alert" aria-live="assertive"></span>
+        </div>
+        <div class="form-group">
+          <label for="item-location" class="form-label">Where did you put it? <span class="required" aria-hidden="true">*</span></label>
+          <select
+            id="item-location"
+            class="form-select"
+            aria-required="true"
+            aria-describedby="item-location-error"
+          >
+            <option value="">Pick a spot…</option>
+          </select>
+          <span class="form-error" id="item-location-error" role="alert" aria-live="assertive"></span>
+        </div>
+        <div class="form-group">
+          <label for="item-note" class="form-label">Any details? <span class="form-optional">(optional)</span></label>
+          <input
+            type="text"
+            id="item-note"
+            class="form-input"
+            placeholder="e.g. Brown folder, behind the winter jumpers…"
+            autocomplete="off"
+            maxlength="500"
+          />
+        </div>
+        <div class="form-group form-group--inline">
+          <label class="toggle-label" for="item-starred">
+            <input type="checkbox" id="item-starred" class="toggle-input" role="switch" />
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span>⭐ Star this item (for easy access)</span>
+          </label>
+        </div>
+        <!-- Hidden: edit mode -->
+        <input type="hidden" id="item-id" value="" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" data-modal="modal-item">Cancel</button>
+        <button class="btn btn--primary" id="btn-save-item">Save it! 📦</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT LOCATION -->
+  <div
+    class="modal-overlay"
+    id="modal-location"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-location-title"
+    hidden
+  >
+    <div class="modal" tabindex="-1">
+      <button class="modal-close" data-modal="modal-location" aria-label="Close">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji" id="modal-location-emoji-display" aria-hidden="true">📍</span>
+        <h2 id="modal-location-title" class="modal-title">Add a Room or Spot</h2>
+        <p class="modal-subtitle">Give it a name your future self will understand.</p>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="location-emoji" class="form-label">Pick an emoji <span class="form-optional">(optional, but fun)</span></label>
+          <div class="emoji-picker" id="emoji-picker" role="group" aria-label="Choose an emoji for this location">
+            <button type="button" class="emoji-btn" data-emoji="🛋️" aria-label="Sofa">🛋️</button>
+            <button type="button" class="emoji-btn" data-emoji="🛏️" aria-label="Bed">🛏️</button>
+            <button type="button" class="emoji-btn" data-emoji="🍳" aria-label="Kitchen">🍳</button>
+            <button type="button" class="emoji-btn" data-emoji="🚿" aria-label="Bathroom">🚿</button>
+            <button type="button" class="emoji-btn" data-emoji="🚗" aria-label="Garage">🚗</button>
+            <button type="button" class="emoji-btn" data-emoji="📦" aria-label="Storage">📦</button>
+            <button type="button" class="emoji-btn" data-emoji="🧰" aria-label="Workshop">🧰</button>
+            <button type="button" class="emoji-btn" data-emoji="📚" aria-label="Study">📚</button>
+            <button type="button" class="emoji-btn" data-emoji="🌿" aria-label="Garden">🌿</button>
+            <button type="button" class="emoji-btn" data-emoji="🏠" aria-label="House">🏠</button>
+            <button type="button" class="emoji-btn" data-emoji="🎮" aria-label="Games room">🎮</button>
+            <button type="button" class="emoji-btn" data-emoji="🧺" aria-label="Laundry">🧺</button>
+            <button type="button" class="emoji-btn" data-emoji="🪜" aria-label="Loft">🪜</button>
+            <button type="button" class="emoji-btn" data-emoji="❄️" aria-label="Freezer">❄️</button>
+            <button type="button" class="emoji-btn" data-emoji="🎁" aria-label="Gift storage">🎁</button>
+          </div>
+          <input type="hidden" id="location-emoji" value="📍" />
+        </div>
+        <div class="form-group">
+          <label for="location-name" class="form-label">Name <span class="required" aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="location-name"
+            class="form-input"
+            placeholder="e.g. Bedroom, Kitchen drawer, Loft box 3…"
+            autocomplete="off"
+            aria-required="true"
+            aria-describedby="location-name-error"
+            maxlength="100"
+          />
+          <span class="form-error" id="location-name-error" role="alert" aria-live="assertive"></span>
+        </div>
+        <div class="form-group">
+          <label for="location-parent" class="form-label">Inside which room? <span class="form-optional">(optional — for nested spots)</span></label>
+          <select id="location-parent" class="form-select">
+            <option value="">Top level (it's a main room)</option>
+          </select>
+        </div>
+        <!-- Hidden: edit mode -->
+        <input type="hidden" id="location-id" value="" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" data-modal="modal-location">Cancel</button>
+        <button class="btn btn--primary" id="btn-save-location">Add this spot! 📍</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div
+    class="modal-overlay"
+    id="modal-export"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-export-title"
+    hidden
+  >
+    <div class="modal" tabindex="-1">
+      <button class="modal-close" data-modal="modal-export" aria-label="Close">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji" aria-hidden="true">📤</span>
+        <h2 id="modal-export-title" class="modal-title">Export Your House</h2>
+        <p class="modal-subtitle">Pack everything up into a handy encrypted file.</p>
+      </div>
+      <div class="modal-body">
+        <div class="info-banner">
+          <span aria-hidden="true">🔐</span>
+          Your data will be encrypted with AES-256-GCM. Pick a good password and don't lose it — we can't recover it for you (we don't even know it exists!).
+        </div>
+        <div class="form-group">
+          <label for="export-password" class="form-label">Encryption password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-with-toggle">
+            <input
+              type="password"
+              id="export-password"
+              class="form-input"
+              placeholder="Something memorable but secret…"
+              autocomplete="new-password"
+              aria-required="true"
+              aria-describedby="export-password-error"
+            />
+            <button type="button" class="toggle-password" data-target="export-password" aria-label="Show/hide password">👁️</button>
+          </div>
+          <span class="form-error" id="export-password-error" role="alert" aria-live="assertive"></span>
+        </div>
+        <div class="form-group">
+          <label for="export-password-confirm" class="form-label">Confirm password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-with-toggle">
+            <input
+              type="password"
+              id="export-password-confirm"
+              class="form-input"
+              placeholder="Type it again to be sure…"
+              autocomplete="new-password"
+              aria-required="true"
+              aria-describedby="export-confirm-error"
+            />
+            <button type="button" class="toggle-password" data-target="export-password-confirm" aria-label="Show/hide password">👁️</button>
+          </div>
+          <span class="form-error" id="export-confirm-error" role="alert" aria-live="assertive"></span>
+        </div>
+        <div class="password-strength" id="password-strength" aria-live="polite"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" data-modal="modal-export">Cancel</button>
+        <button class="btn btn--primary" id="btn-do-export">
+          <span id="export-btn-text">Download .house file 🏠</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORT -->
+  <div
+    class="modal-overlay"
+    id="modal-import"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-import-title"
+    hidden
+  >
+    <div class="modal" tabindex="-1">
+      <button class="modal-close" data-modal="modal-import" aria-label="Close">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji" aria-hidden="true">📥</span>
+        <h2 id="modal-import-title" class="modal-title">Import Your House</h2>
+        <p class="modal-subtitle">Welcome back! Let's unlock your data.</p>
+      </div>
+      <div class="modal-body">
+        <div class="info-banner info-banner--warn">
+          <span aria-hidden="true">⚠️</span>
+          Importing will <strong>replace</strong> your current data. Export first if you want to keep it!
+        </div>
+        <div class="form-group">
+          <label for="import-file" class="form-label">Select your .house file <span class="required" aria-hidden="true">*</span></label>
+          <div class="file-drop-zone" id="file-drop-zone" role="button" tabindex="0" aria-label="Drop your .house file here or click to browse">
+            <span class="file-drop-icon" aria-hidden="true">📂</span>
+            <p class="file-drop-text">Drop your <code>.house</code> file here<br/>or <span class="file-drop-link">click to browse</span></p>
+            <input
+              type="file"
+              id="import-file"
+              class="file-input"
+              accept=".house"
+              aria-label="Choose .house file"
+            />
+          </div>
+          <p class="file-chosen" id="file-chosen" aria-live="polite"></p>
+        </div>
+        <div class="form-group">
+          <label for="import-password" class="form-label">Decryption password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-with-toggle">
+            <input
+              type="password"
+              id="import-password"
+              class="form-input"
+              placeholder="The password you used when exporting…"
+              autocomplete="current-password"
+              aria-required="true"
+              aria-describedby="import-password-error"
+            />
+            <button type="button" class="toggle-password" data-target="import-password" aria-label="Show/hide password">👁️</button>
+          </div>
+          <span class="form-error" id="import-password-error" role="alert" aria-live="assertive"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" data-modal="modal-import">Cancel</button>
+        <button class="btn btn--primary" id="btn-do-import">
+          <span id="import-btn-text">Unlock &amp; Import 🔓</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM DELETE -->
+  <div
+    class="modal-overlay"
+    id="modal-confirm"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-confirm-title"
+    aria-describedby="modal-confirm-msg"
+    hidden
+  >
+    <div class="modal modal--sm" tabindex="-1">
+      <div class="modal-header">
+        <span class="modal-emoji" aria-hidden="true">🗑️</span>
+        <h2 id="modal-confirm-title" class="modal-title">Are you sure?</h2>
+      </div>
+      <div class="modal-body">
+        <p id="modal-confirm-msg" class="confirm-msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" id="btn-confirm-cancel">Nope, keep it</button>
+        <button class="btn btn--danger" id="btn-confirm-ok">Yes, delete it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ TOAST REGION ═══ -->
+  <div
+    class="toast-region"
+    id="toast-region"
+    role="region"
+    aria-label="Notifications"
+    aria-live="polite"
+    aria-atomic="false"
+  ></div>
+
+  <!-- ═══════════════════════════════════════ CONFETTI ════════ -->
+  <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════ SCRIPTS ════════ -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
