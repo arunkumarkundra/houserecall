@@ -44,8 +44,9 @@
         </div>
       </div>
       <nav class="header-nav" aria-label="Main navigation">
-        <button class="nav-btn" id="btn-how-it-works" aria-haspopup="dialog">
-          <span aria-hidden="true">✨</span> How It Works
+        <button class="nav-btn nav-btn--start-afresh" id="btn-start-afresh" title="Start Afresh — wipe all data and begin again" aria-label="Start Afresh" aria-haspopup="dialog">
+          <svg class="icon-reset" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <span class="btn-label">Start Afresh</span>
         </button>
         <button class="nav-btn nav-btn--icon" id="btn-import" title="Import your house" aria-label="Import house file">
           <span aria-hidden="true">📥</span>
@@ -55,9 +56,8 @@
           <span aria-hidden="true">📤</span>
           <span class="btn-label">Export</span>
         </button>
-        <button class="nav-btn nav-btn--start-afresh" id="btn-start-afresh" title="Start Afresh — wipe all data and begin again" aria-label="Start Afresh" aria-haspopup="dialog">
-          <span aria-hidden="true">🌱</span>
-          <span class="btn-label">Start Afresh</span>
+        <button class="nav-btn" id="btn-how-it-works" aria-haspopup="dialog">
+          <span aria-hidden="true">✨</span> How It Works
         </button>
       </nav>
     </div>
@@ -532,7 +532,7 @@
   >
     <div class="modal modal--sm" tabindex="-1">
       <div class="modal-header">
-        <span class="modal-emoji" aria-hidden="true">🌱</span>
+        <span class="modal-emoji" aria-hidden="true">🔄</span>
         <h2 id="modal-afresh-title" class="modal-title">Start Afresh?</h2>
         <p class="modal-subtitle">Your house will be completely empty after this.</p>
       </div>
@@ -545,7 +545,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" data-modal="modal-start-afresh">No, keep my stuff!</button>
-        <button class="btn btn--danger" id="btn-confirm-afresh">Yes, start afresh 🌱</button>
+        <button class="btn btn--danger" id="btn-confirm-afresh">Yes, start afresh</button>
       </div>
     </div>
   </div>
