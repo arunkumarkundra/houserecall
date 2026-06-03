@@ -283,7 +283,19 @@ code {
   color: var(--white);
 }
 
-/* Start Afresh — subtle sage green, sits apart from the main actions */
+/* Reset icon inside Start Afresh button */
+.icon-reset {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  display: block;
+  transition: transform var(--dur-normal) var(--ease-spring);
+}
+.nav-btn--start-afresh:hover .icon-reset {
+  transform: rotate(-200deg);
+}
+
+/* Start Afresh — sits apart from the main actions */
 .nav-btn--start-afresh {
   border-color: transparent;
   color: var(--ink-muted);
@@ -296,7 +308,7 @@ code {
   /* Soft left separator to visually group it away from export/import */
   content: '';
   position: absolute;
-  left: calc(var(--space-2) * -1);
+  right: calc(var(--space-2) * -1);
   top: 20%;
   height: 60%;
   width: 1px;
@@ -1360,7 +1372,7 @@ code {
 
   .header-inner { padding: 0 var(--space-4); }
   .brand-name { font-size: var(--text-lg); }
-  .brand-tagline { display: none; }  /* too tight on mobile — name only */
+  /* tagline stays visible on tablet — hidden only at 480px */
 
   .nav-btn .btn-label { display: none; }
   .nav-btn { padding: var(--space-2) var(--space-3); }
@@ -1392,6 +1404,32 @@ code {
 
 /* 480px — Mobile */
 @media (max-width: 480px) {
+  /* Header: allow nav to wrap so Start Afresh doesn't overflow */
+  .header-inner {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--header-h);
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+    row-gap: 0;
+  }
+  .header-nav {
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .header-nav::-webkit-scrollbar { display: none; }
+
+  /* Tagline: hide on narrow mobile — not enough room */
+  .brand-tagline { display: none; }
+
+  /* Start Afresh: show label again at 480px so it's readable
+     (we have more horizontal room once nav scrolls) */
+  .nav-btn--start-afresh .btn-label { display: inline; }
+
   .quick-actions { grid-template-columns: 1fr; }
   .action-card { flex-direction: row; align-items: center; padding: var(--space-4) var(--space-5); }
   .action-icon { font-size: 1.6rem; }
