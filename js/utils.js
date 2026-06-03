@@ -395,7 +395,8 @@ export function isValidItem(item) {
     isNonEmpty(item.name) &&
     (item.locationId === null || isValidId(item.locationId)) &&
     (item.note === undefined || typeof item.note === 'string') &&
-    (item.starred === undefined || typeof item.starred === 'boolean')
+    (item.starred === undefined || typeof item.starred === 'boolean' || item.starred === 0 || item.starred === 1)
+
   );
 }
 
