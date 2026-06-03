@@ -25,7 +25,7 @@ import { addItem, editItem, removeItem,
 import { encryptHouseData, decryptHouseFile,
          downloadHouseFile, readFileAsArrayBuffer,
          isEncryptionSupported, CRYPTO_INFO }                            from './encryption.js';
-import { exportData, importData }            from './storage.js';
+import { exportData, importData, clearAllData } from './storage.js';
 import { byId, show, hide, setTextSafe, scorePassword,
          buildExportFilename, sanitiseAndTrim, isNonEmpty }              from './utils.js';
 
@@ -69,6 +69,7 @@ async function _boot() {
   _wireLocationModal();
   _wireExportModal();
   _wireImportModal();
+  _wireStartAfreshModal();
 
   // 5. Init search
   _initSearchSystem();
@@ -87,7 +88,40 @@ async function _boot() {
     );
   }
 
+  // Rotating search placeholder
+  _initRotatingPlaceholder();
+
   console.info('[HouseRecall] Ready 🏠', CRYPTO_INFO);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1b. ROTATING SEARCH PLACEHOLDER
+   ═══════════════════════════════════════════════════════════════ */
+
+/**
+ * Cycles the search input placeholder through keyword examples
+ * every 3 seconds — only when the field is empty and unfocused.
+ * Uses the pipe-separated list in data-placeholders attribute.
+ */
+function _initRotatingPlaceholder() {
+  const input = byId('search-input');
+  if (!input) return;
+
+  const raw   = input.getAttribute('data-placeholders') ?? '';
+  const items = raw.split('|').map(s => s.trim()).filter(Boolean);
+  if (items.length < 2) return;
+
+  let idx     = 0;
+  let focused = false;
+
+  input.addEventListener('focus', () => { focused = true; });
+  input.addEventListener('blur',  () => { focused = false; });
+
+  setInterval(() => {
+    if (focused || input.value.trim()) return;
+    idx = (idx + 1) % items.length;
+    input.placeholder = items[idx];
+  }, 3000);
 }
 
 
@@ -109,6 +143,11 @@ function _wireHeaderButtons() {
   // Import
   byId('btn-import')?.addEventListener('click', (e) => {
     _openImportModal(e.currentTarget);
+  });
+
+  // Start Afresh
+  byId('btn-start-afresh')?.addEventListener('click', (e) => {
+    _handleStartAfresh(e.currentTarget);
   });
 
   // Quick action: Store Something
@@ -547,15 +586,8 @@ async function _handleExport() {
 
   if (!password) {
     showFieldError('export-password', 'export-password-error',
-      'Please set a password to protect your data 🔑');
+      'Please set a password — even a simple one protects your file 🔑');
     hasError = true;
-  } else {
-    const strength = scorePassword(password);
-    if (strength.score === 0) {
-      showFieldError('export-password', 'export-password-error',
-        'Your password is too weak — try something longer or more varied 🔑');
-      hasError = true;
-    }
   }
 
   if (password && confirm !== password) {
@@ -571,7 +603,7 @@ async function _handleExport() {
   try {
     const data     = await exportData();
     const buffer   = await encryptHouseData(data, password);
-    const filename = buildExportFilename('MyHome');
+    const filename = buildExportFilename();
     downloadHouseFile(buffer, filename);
 
     clearBtnLoading('btn-do-export');
@@ -678,8 +710,10 @@ async function _handleImport() {
     closeModal('modal-import');
     _pendingImportFile = null;
 
+    const locWord  = result.locations === 1 ? 'room'  : 'rooms';
+    const itemWord = result.items     === 1 ? 'item'  : 'items';
     toastSuccess(
-      `🏠 Imported! ${result.locations} room(s) and ${result.items} item(s) loaded.`
+      `🏠 Welcome home! ${result.locations} ${locWord} and ${result.items} ${itemWord} loaded.`
     );
 
     _search?.ui?.invalidate();
@@ -702,7 +736,47 @@ function _handleFileDrop(file) {
 
 
 /* ═══════════════════════════════════════════════════════════════
-   8. SEARCH
+   8. START AFRESH
+   ═══════════════════════════════════════════════════════════════ */
+
+/**
+ * Wire the Start Afresh modal confirm button.
+ * Called once at boot — the modal open is handled by the header button.
+ */
+function _wireStartAfreshModal() {
+  byId('btn-confirm-afresh')?.addEventListener('click', _doStartAfresh);
+}
+
+/**
+ * Open the Start Afresh confirmation modal.
+ * @param {HTMLElement} [triggerEl]
+ */
+function _handleStartAfresh(triggerEl) {
+  openModal('modal-start-afresh', triggerEl);
+}
+
+/**
+ * Execute Start Afresh — wipe all data, navigate home, toast.
+ */
+async function _doStartAfresh() {
+  setBtnLoading('btn-confirm-afresh', 'Clearing…');
+
+  try {
+    await clearAllData();
+    closeModal('modal-start-afresh');
+    _search?.ui?.invalidate();
+    await navigateTo(null);
+    toastSuccess('🌱 All clear! Your house is fresh and ready to fill again.');
+  } catch (err) {
+    clearBtnLoading('btn-confirm-afresh');
+    toastError('Something went wrong clearing your data 😬');
+    console.error('[HouseRecall] Start Afresh error:', err);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. SEARCH
    ═══════════════════════════════════════════════════════════════ */
 
 /** @type {{ engine: import('./search.js').SearchEngine, ui: import('./search.js').SearchUI }|null} */
@@ -740,7 +814,7 @@ function _highlightItem(itemId) {
 
 
 /* ═══════════════════════════════════════════════════════════════
-   9. FATAL ERROR
+   10. FATAL ERROR
    ═══════════════════════════════════════════════════════════════ */
 
 /**
