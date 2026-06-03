@@ -1,0 +1,9 @@
+# HouseRecall — robots.txt
+# There's nothing sensitive to crawl here — the app is entirely
+# client-side and stores no data on the server. Crawl away!
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://houserecall.com/sitemap.xml
