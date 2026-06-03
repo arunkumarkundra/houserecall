@@ -38,7 +38,10 @@
     <div class="header-inner">
       <div class="brand">
         <span class="brand-icon" aria-hidden="true">🏠</span>
-        <span class="brand-name">HouseRecall</span>
+        <div class="brand-text">
+          <span class="brand-name">HouseRecall</span>
+          <span class="brand-tagline">Remember where everything lives</span>
+        </div>
       </div>
       <nav class="header-nav" aria-label="Main navigation">
         <button class="nav-btn" id="btn-how-it-works" aria-haspopup="dialog">
@@ -51,6 +54,10 @@
         <button class="nav-btn nav-btn--icon nav-btn--accent" id="btn-export" title="Export your house" aria-label="Export house file">
           <span aria-hidden="true">📤</span>
           <span class="btn-label">Export</span>
+        </button>
+        <button class="nav-btn nav-btn--start-afresh" id="btn-start-afresh" title="Start Afresh — wipe all data and begin again" aria-label="Start Afresh" aria-haspopup="dialog">
+          <span aria-hidden="true">🌱</span>
+          <span class="btn-label">Start Afresh</span>
         </button>
       </nav>
     </div>
@@ -70,11 +77,12 @@
           type="search"
           id="search-input"
           class="search-input"
-          placeholder="Where's my passport? Search anything…"
+          placeholder="Try: passport, user manual, torch…"
+          data-placeholders="Try: passport…|Try: user manual…|Try: torch, batteries…|Try: insurance docs…|Try: birthday candles…|Try: HDMI cable…|Try: spare keys…|Try: warranty card…"
           autocomplete="off"
           autocorrect="off"
           spellcheck="false"
-          aria-label="Search for items"
+          aria-label="Search for items by keyword"
           aria-autocomplete="list"
           aria-controls="search-results"
           aria-expanded="false"
@@ -397,27 +405,30 @@
       <div class="modal-header">
         <span class="modal-emoji" aria-hidden="true">📤</span>
         <h2 id="modal-export-title" class="modal-title">Export Your House</h2>
-        <p class="modal-subtitle">Pack everything up into a handy encrypted file.</p>
+        <p class="modal-subtitle">Pack everything up into a safe, encrypted file.</p>
       </div>
       <div class="modal-body">
         <div class="info-banner">
           <span aria-hidden="true">🔐</span>
-          Your data will be encrypted with AES-256-GCM. Pick a good password and don't lose it — we can't recover it for you (we don't even know it exists!).
+          Your file is always encrypted with AES-256-GCM — even a simple password keeps it safe. Pick something you'll remember, because we can't recover it (we don't even know it exists!).
         </div>
         <div class="form-group">
-          <label for="export-password" class="form-label">Encryption password <span class="required" aria-hidden="true">*</span></label>
+          <label for="export-password" class="form-label">
+            Set a password <span class="required" aria-hidden="true">*</span>
+          </label>
           <div class="input-with-toggle">
             <input
               type="password"
               id="export-password"
               class="form-input"
-              placeholder="Something memorable but secret…"
+              placeholder="Anything you'll remember — simple is fine!"
               autocomplete="new-password"
               aria-required="true"
-              aria-describedby="export-password-error"
+              aria-describedby="export-password-error export-password-hint"
             />
             <button type="button" class="toggle-password" data-target="export-password" aria-label="Show/hide password">👁️</button>
           </div>
+          <span class="form-hint" id="export-password-hint">Even "cat" works — but longer is safer 😄</span>
           <span class="form-error" id="export-password-error" role="alert" aria-live="assertive"></span>
         </div>
         <div class="form-group">
@@ -427,7 +438,7 @@
               type="password"
               id="export-password-confirm"
               class="form-input"
-              placeholder="Type it again to be sure…"
+              placeholder="Type it once more to be sure…"
               autocomplete="new-password"
               aria-required="true"
               aria-describedby="export-confirm-error"
@@ -461,7 +472,7 @@
       <div class="modal-header">
         <span class="modal-emoji" aria-hidden="true">📥</span>
         <h2 id="modal-import-title" class="modal-title">Import Your House</h2>
-        <p class="modal-subtitle">Welcome back! Let's unlock your data.</p>
+        <p class="modal-subtitle">Welcome back! Enter your password to unlock your data.</p>
       </div>
       <div class="modal-body">
         <div class="info-banner info-banner--warn">
@@ -484,7 +495,7 @@
           <p class="file-chosen" id="file-chosen" aria-live="polite"></p>
         </div>
         <div class="form-group">
-          <label for="import-password" class="form-label">Decryption password <span class="required" aria-hidden="true">*</span></label>
+          <label for="import-password" class="form-label">Your export password <span class="required" aria-hidden="true">*</span></label>
           <div class="input-with-toggle">
             <input
               type="password"
@@ -505,6 +516,36 @@
         <button class="btn btn--primary" id="btn-do-import">
           <span id="import-btn-text">Unlock &amp; Import 🔓</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- START AFRESH -->
+  <div
+    class="modal-overlay"
+    id="modal-start-afresh"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-afresh-title"
+    aria-describedby="modal-afresh-msg"
+    hidden
+  >
+    <div class="modal modal--sm" tabindex="-1">
+      <div class="modal-header">
+        <span class="modal-emoji" aria-hidden="true">🌱</span>
+        <h2 id="modal-afresh-title" class="modal-title">Start Afresh?</h2>
+        <p class="modal-subtitle">Your house will be completely empty after this.</p>
+      </div>
+      <div class="modal-body">
+        <div class="info-banner info-banner--warn">
+          <span aria-hidden="true">⚠️</span>
+          This will permanently remove <strong>all your rooms and items</strong>. There's no undo! Export your data first if you'd like a backup.
+        </div>
+        <p id="modal-afresh-msg" class="confirm-msg">Ready to wipe the slate clean and start fresh? 🌱</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" data-modal="modal-start-afresh">No, keep my stuff!</button>
+        <button class="btn btn--danger" id="btn-confirm-afresh">Yes, start afresh 🌱</button>
       </div>
     </div>
   </div>
