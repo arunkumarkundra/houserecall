@@ -766,7 +766,7 @@ async function _doStartAfresh() {
     closeModal('modal-start-afresh');
     _search?.ui?.invalidate();
     await navigateTo(null);
-    toastSuccess('🌱 All clear! Your house is fresh and ready to fill again.');
+    toastSuccess('All clear! Your house is fresh and ready to fill again. 🏠');
   } catch (err) {
     clearBtnLoading('btn-confirm-afresh');
     toastError('Something went wrong clearing your data 😬');
