@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Privacy Policy — HouseRecall</title>
+  <meta name="description" content="HouseRecall's privacy policy. Spoiler: we collect nothing." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .policy-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6) var(--space-16);
+    }
+    .policy-hero {
+      text-align: center;
+      padding: var(--space-10) 0 var(--space-8);
+    }
+    .policy-hero-emoji { font-size: 3.5rem; display: block; margin-bottom: var(--space-3); }
+    .policy-hero h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--warm-brown);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+    }
+    .policy-hero p { color: var(--ink-soft); font-size: var(--text-lg); }
+    .policy-section {
+      background: var(--white);
+      border: 1.5px solid var(--parchment);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-5);
+    }
+    .policy-section h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--warm-brown);
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .policy-section p, .policy-section ul {
+      color: var(--ink-mid);
+      font-size: var(--text-base);
+      line-height: var(--leading-loose);
+      margin-bottom: var(--space-3);
+    }
+    .policy-section ul { padding-left: var(--space-6); }
+    .policy-section li { margin-bottom: var(--space-2); }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      color: var(--terracotta);
+      font-weight: 600;
+      margin-bottom: var(--space-8);
+      padding: var(--space-2) 0;
+      transition: color var(--dur-fast);
+    }
+    .policy-back:hover { color: var(--warm-brown); }
+    .tl-dr {
+      background: linear-gradient(135deg, #e8f5ea, #d4f0d8);
+      border: 1.5px solid var(--sage-lt);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .tl-dr h2 { color: #2d5a3c; font-family: var(--font-display); font-size: var(--text-xl); margin-bottom: var(--space-3); }
+    .tl-dr p  { color: #2d5a3c; font-size: var(--text-base); line-height: var(--leading-loose); }
+  </style>
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <a href="index.html" class="brand" style="text-decoration:none">
+        <span class="brand-icon" aria-hidden="true">🏠</span>
+        <span class="brand-name">HouseRecall</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="policy-wrap" id="main-content">
+    <a href="index.html" class="policy-back">← Back to HouseRecall</a>
+
+    <div class="policy-hero">
+      <span class="policy-hero-emoji" aria-hidden="true">🔒</span>
+      <h1>Privacy Policy</h1>
+      <p>Last updated: June 2025 · Effective immediately</p>
+    </div>
+
+    <div class="tl-dr">
+      <h2>🎯 TL;DR — The honest two-liner</h2>
+      <p>
+        <strong>HouseRecall collects absolutely nothing about you.</strong>
+        Your data lives in your browser. We have no server, no database, no account system, and no analytics. We literally cannot see your data even if we wanted to.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">👤</span> Who we are</h2>
+      <p>HouseRecall is a browser-based personal organisation tool. There is no company server, no backend infrastructure, and no data pipeline. The "we" in this policy refers to the creators of this software — not a data controller in the traditional sense, because we control nothing.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">📊</span> What data we collect</h2>
+      <p><strong>None.</strong> Zero. Zip. Nada.</p>
+      <p>HouseRecall runs entirely in your browser using:</p>
+      <ul>
+        <li><strong>IndexedDB</strong> — your locations and items are stored locally in your browser's built-in database. This data never leaves your device unless you explicitly export it.</li>
+        <li><strong>Web Crypto API</strong> — used locally to encrypt your export files. Your encryption password is never transmitted anywhere.</li>
+        <li><strong>No cookies</strong> — we set zero cookies, tracking or otherwise.</li>
+        <li><strong>No analytics</strong> — no Google Analytics, no Mixpanel, no pixel trackers, nothing.</li>
+        <li><strong>No external requests</strong> — other than loading the Google Fonts stylesheet (see below), the app makes no network requests at runtime.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🖋️</span> Google Fonts</h2>
+      <p>HouseRecall loads two fonts (Fraunces and DM Sans) from Google Fonts via a CSS import. This means your browser makes a request to Google's servers to download those font files. Google may log your IP address as part of that request.</p>
+      <p>If this concerns you, you can self-host the fonts or remove the import from <code>styles.css</code> — the app will fall back to system fonts gracefully.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">💾</span> Your exported .house files</h2>
+      <p>When you export your data, a <code>.house</code> file is downloaded to your device. This file is encrypted with AES-256-GCM using a password you choose. We never see this file, never receive it, and have no way to decrypt it — your password exists only in your head and your browser session.</p>
+      <p>You are fully responsible for the security of your exported files. Store them somewhere safe, and don't forget your password — there is no recovery mechanism because there is no server to recover it from.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🗑️</span> Deleting your data</h2>
+      <p>Your data is stored in your browser's IndexedDB. To delete it completely:</p>
+      <ul>
+        <li>Clear your browser's site data for this domain (Settings → Privacy → Clear browsing data → Site data)</li>
+        <li>Or use your browser's developer tools to delete the <code>houserecall</code> IndexedDB database</li>
+      </ul>
+      <p>There is no "delete my account" button because there is no account. Once you clear the browser data, it's gone permanently.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">👶</span> Children's privacy</h2>
+      <p>HouseRecall does not knowingly collect any information from anyone, including children under 13. Since we collect no data at all, this is a non-issue in practice — but we mention it for completeness.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🔄</span> Changes to this policy</h2>
+      <p>If we ever change this policy (for example, if we add analytics or a server component), we will update the "last updated" date above and make it prominent. We don't anticipate this happening — the privacy-first, local-only architecture is a core design principle of HouseRecall, not an afterthought.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">✉️</span> Contact</h2>
+      <p>Questions, concerns, or just want to say hi? Since there's no data to ask about, there's not much to contact us about — but if you find a bug or have a feature idea, feel free to reach out via the project's repository.</p>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <p>HouseRecall — <a href="index.html">Back to app</a> · <a href="terms.html">Terms of Use</a></p>
+  </footer>
+</body>
+</html>
