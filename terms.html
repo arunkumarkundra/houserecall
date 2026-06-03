@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Terms of Use — HouseRecall</title>
+  <meta name="description" content="HouseRecall terms of use. Plain English, no legalese." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .policy-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6) var(--space-16);
+    }
+    .policy-hero {
+      text-align: center;
+      padding: var(--space-10) 0 var(--space-8);
+    }
+    .policy-hero-emoji { font-size: 3.5rem; display: block; margin-bottom: var(--space-3); }
+    .policy-hero h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--warm-brown);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+    }
+    .policy-hero p { color: var(--ink-soft); font-size: var(--text-lg); }
+    .policy-section {
+      background: var(--white);
+      border: 1.5px solid var(--parchment);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-5);
+    }
+    .policy-section h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--warm-brown);
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .policy-section p, .policy-section ul {
+      color: var(--ink-mid);
+      font-size: var(--text-base);
+      line-height: var(--leading-loose);
+      margin-bottom: var(--space-3);
+    }
+    .policy-section ul { padding-left: var(--space-6); }
+    .policy-section li { margin-bottom: var(--space-2); }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      color: var(--terracotta);
+      font-weight: 600;
+      margin-bottom: var(--space-8);
+      padding: var(--space-2) 0;
+      transition: color var(--dur-fast);
+    }
+    .policy-back:hover { color: var(--warm-brown); }
+    .tl-dr {
+      background: linear-gradient(135deg, #fef8e6, #fef3d8);
+      border: 1.5px solid var(--gold-lt);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .tl-dr h2 { color: #7a5a00; font-family: var(--font-display); font-size: var(--text-xl); margin-bottom: var(--space-3); }
+    .tl-dr p  { color: #7a5a00; font-size: var(--text-base); line-height: var(--leading-loose); }
+  </style>
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <a href="index.html" class="brand" style="text-decoration:none">
+        <span class="brand-icon" aria-hidden="true">🏠</span>
+        <span class="brand-name">HouseRecall</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="policy-wrap" id="main-content">
+    <a href="index.html" class="policy-back">← Back to HouseRecall</a>
+
+    <div class="policy-hero">
+      <span class="policy-hero-emoji" aria-hidden="true">📜</span>
+      <h1>Terms of Use</h1>
+      <p>Last updated: June 2025 · Plain English, promise.</p>
+    </div>
+
+    <div class="tl-dr">
+      <h2>⚡ The short version</h2>
+      <p>
+        Use HouseRecall to organise your home. Don't do anything illegal with it. We provide it as-is — if something goes wrong with your data, that's on you to back up. That's basically it.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">✅</span> Acceptance</h2>
+      <p>By using HouseRecall, you agree to these terms. If you don't agree, please don't use the app. It's that simple — no dark patterns, no buried gotchas.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🛠️</span> What HouseRecall is</h2>
+      <p>HouseRecall is a free, browser-based tool that helps you remember where you've stored household items. It runs entirely in your browser — there is no server, no cloud, and no account system.</p>
+      <p>It is provided free of charge, as-is, for personal use.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">💾</span> Your data responsibility</h2>
+      <p>Because HouseRecall stores your data locally in your browser's IndexedDB:</p>
+      <ul>
+        <li><strong>You are solely responsible for backing up your data.</strong> Use the Export feature regularly and keep your <code>.house</code> files somewhere safe.</li>
+        <li>Clearing your browser data, uninstalling your browser, or switching devices will delete your data.</li>
+        <li>We cannot recover your data. There is no server, no backup, no support team with access to your records.</li>
+        <li>Keep your export password somewhere secure. Losing it means losing access to your export files permanently — there is no reset mechanism.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🚫</span> What you may not do</h2>
+      <p>HouseRecall is for personal household organisation. Please don't use it to:</p>
+      <ul>
+        <li>Store or organise illegal items or activities</li>
+        <li>Reverse-engineer, decompile, or misuse the source code in harmful ways</li>
+        <li>Create modified versions that deceive users about their data privacy</li>
+      </ul>
+      <p>That's a pretty short list — we trust you. 😄</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">⚠️</span> Disclaimer of warranties</h2>
+      <p>HouseRecall is provided <strong>"as is"</strong> without any warranty, express or implied. We make no guarantees about:</p>
+      <ul>
+        <li>Uninterrupted or error-free operation</li>
+        <li>The accuracy or reliability of the app</li>
+        <li>Compatibility with your browser or device</li>
+        <li>Data persistence across browser updates or cache clears</li>
+      </ul>
+      <p>Use it at your own risk, and please export regularly. Consider it like a notebook — useful, but don't rely on it as your only copy of critical information.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🔒</span> Intellectual property</h2>
+      <p>The HouseRecall name, logo, and source code are the property of their respective creators. Your data — your locations, items, and notes — is entirely yours. We claim no rights over it whatsoever.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🌍</span> Governing law</h2>
+      <p>These terms are governed by the laws of the jurisdiction in which HouseRecall was created. Since there's no commercial transaction or personal data involved, disputes are unlikely — but if one arises, we'd prefer to resolve it amicably before any formal process.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🔄</span> Changes to these terms</h2>
+      <p>We may update these terms occasionally. The "last updated" date at the top will always reflect the most recent version. Continued use of HouseRecall after changes constitutes acceptance of the new terms.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span aria-hidden="true">🤝</span> That's it</h2>
+      <p>Seriously, that's all. HouseRecall is a simple tool built with good intentions. We hope it helps you find your passport the next time you're about to miss a flight. 😄</p>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <p>HouseRecall — <a href="index.html">Back to app</a> · <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+</body>
+</html>
