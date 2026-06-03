@@ -134,13 +134,13 @@ export function getTimestampSuffix(date = new Date()) {
 
 /**
  * Build a safe export filename.
- * e.g. "MyHome_20240615-1430.house"
+ * e.g. "HouseRecall_20240615-1430.house"
  * @param {string} [baseName]
  * @returns {string}
  */
-export function buildExportFilename(baseName = 'MyHome') {
+export function buildExportFilename(baseName = 'HouseRecall') {
   // Sanitise the base name: only allow word chars, spaces, hyphens
-  const safe = baseName.replace(/[^\w\s\-]/g, '').trim() || 'MyHome';
+  const safe = baseName.replace(/[^\w\s\-]/g, '').trim() || 'HouseRecall';
   return `${safe}_${getTimestampSuffix()}.house`;
 }
 
@@ -396,7 +396,6 @@ export function isValidItem(item) {
     (item.locationId === null || isValidId(item.locationId)) &&
     (item.note === undefined || typeof item.note === 'string') &&
     (item.starred === undefined || typeof item.starred === 'boolean' || item.starred === 0 || item.starred === 1)
-
   );
 }
 
@@ -452,24 +451,29 @@ export function validateImportPayload(data) {
    ═══════════════════════════════════════════════════════════════ */
 
 /**
- * Score a password's strength.
+ * Score a password strength — informational only.
+ * All non-empty passwords are accepted; this is purely a helpful nudge.
+ * No minimum length or complexity is enforced.
+ *
  * @param {string} password
  * @returns {{ score: 0|1|2, label: string, cssClass: string }}
  *   score 0 = weak, 1 = fair, 2 = strong
  */
 export function scorePassword(password) {
-  if (!password || password.length < 6) {
-    return { score: 0, label: '🙈 Too short — make it at least 8 characters', cssClass: 'strength-weak' };
+  if (!password) {
+    return { score: 0, label: '', cssClass: '' };
   }
+
   let score = 0;
-  if (password.length >= 10) score++;
+  if (password.length >= 8)  score++;
+  if (password.length >= 12) score++;
   if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
-  if (score <= 1) return { score: 0, label: '😬 Weak — try mixing letters, numbers & symbols', cssClass: 'strength-weak' };
-  if (score <= 2) return { score: 1, label: '😐 Fair — a bit stronger would be better', cssClass: 'strength-fair' };
-  return { score: 2, label: '💪 Strong — nice work, your stuff is safe!', cssClass: 'strength-strong' };
+  if (score <= 1) return { score: 0, label: "😬 Weak — but that's your call!", cssClass: 'strength-weak' };
+  if (score <= 3) return { score: 1, label: '😐 Fair — a bit longer would be even better', cssClass: 'strength-fair' };
+  return { score: 2, label: '💪 Strong — your stuff is well protected!', cssClass: 'strength-strong' };
 }
 
 
