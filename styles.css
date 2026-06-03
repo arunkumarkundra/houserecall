@@ -215,12 +215,28 @@ code {
   filter: drop-shadow(0 1px 2px rgba(45,31,20,0.2));
 }
 
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .brand-name {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-xl);
   color: var(--warm-brown);
   letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.brand-tagline {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .header-nav {
@@ -266,6 +282,37 @@ code {
   border-color: var(--warm-brown);
   color: var(--white);
 }
+
+/* Start Afresh — subtle sage green, sits apart from the main actions */
+.nav-btn--start-afresh {
+  border-color: transparent;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  gap: var(--space-2);
+  position: relative;
+}
+.nav-btn--start-afresh::before {
+  /* Soft left separator to visually group it away from export/import */
+  content: '';
+  position: absolute;
+  left: calc(var(--space-2) * -1);
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: var(--parchment);
+}
+.nav-btn--start-afresh:hover {
+  background: #fef3f0;
+  border-color: var(--terracotta-lt);
+  color: var(--terracotta);
+  box-shadow: none;
+}
+.nav-btn--start-afresh:hover .btn-label {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.nav-btn--start-afresh:active { transform: translateY(0); }
 
 /* ── 6. LAYOUT ──────────────────────────────────────────────── */
 .app-main {
@@ -1014,6 +1061,13 @@ code {
   min-height: 1em;
 }
 
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  font-style: italic;
+  line-height: var(--leading-snug);
+}
+
 .input-with-toggle {
   position: relative;
   display: flex;
@@ -1040,6 +1094,8 @@ code {
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   display: none;
+  transition: background var(--dur-fast), color var(--dur-fast);
+  animation: fade-in var(--dur-normal) var(--ease-out) both;
 }
 .password-strength.strength-weak   { display: block; background: #fde8e8; color: var(--danger); }
 .password-strength.strength-fair   { display: block; background: #fef3d8; color: #b07700; }
@@ -1304,9 +1360,13 @@ code {
 
   .header-inner { padding: 0 var(--space-4); }
   .brand-name { font-size: var(--text-lg); }
+  .brand-tagline { display: none; }  /* too tight on mobile — name only */
 
   .nav-btn .btn-label { display: none; }
   .nav-btn { padding: var(--space-2) var(--space-3); }
+  /* Keep Start Afresh emoji readable but ultra-compact */
+  .nav-btn--start-afresh { padding: var(--space-2); }
+  .nav-btn--start-afresh::before { display: none; }
 
   .app-main { padding: var(--space-6) var(--space-4) var(--space-12); gap: var(--space-8); }
 
