@@ -1404,31 +1404,56 @@ code {
 
 /* 480px — Mobile */
 @media (max-width: 480px) {
-  /* Header: allow nav to wrap so Start Afresh doesn't overflow */
+  /* ── Header: single compact row, everything fits ── */
+  :root { --header-h: 52px; }
+
+  .app-header { height: var(--header-h); overflow: visible; }
+
   .header-inner {
-    flex-wrap: wrap;
-    height: auto;
-    min-height: var(--header-h);
-    padding-top: var(--space-2);
-    padding-bottom: var(--space-2);
-    row-gap: 0;
+    flex-wrap: nowrap;          /* single row — no wrapping */
+    height: var(--header-h);
+    padding: 0 var(--space-3);
+    gap: var(--space-2);
+    align-items: center;
   }
+
+  /* Brand: icon + stacked text, smaller */
+  .brand { gap: var(--space-1); flex-shrink: 0; }
+  .brand-icon { font-size: 1.2rem; }
+  .brand-name { font-size: var(--text-base); }
+
+  /* Tagline: visible but tiny — it fits on one line */
+  .brand-tagline {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Nav: push to right, icon-only, tight gap */
   .header-nav {
     flex-wrap: nowrap;
     gap: var(--space-1);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+    flex-shrink: 0;
+    margin-left: auto;
+    overflow: visible;
   }
-  .header-nav::-webkit-scrollbar { display: none; }
 
-  /* Tagline: hide on narrow mobile — not enough room */
-  .brand-tagline { display: none; }
+  /* All nav buttons: compact icon-only squares */
+  .nav-btn {
+    padding: 6px;
+    min-width: 32px;
+    min-height: 32px;
+    font-size: var(--text-xs);
+    justify-content: center;
+  }
+  .nav-btn .btn-label { display: none; }     /* hide all labels */
+  .nav-btn--start-afresh .btn-label { display: none; } /* including Start Afresh */
+  .nav-btn--start-afresh::before { display: none; }
 
-  /* Start Afresh: show label again at 480px so it's readable
-     (we have more horizontal room once nav scrolls) */
-  .nav-btn--start-afresh .btn-label { display: inline; }
+  /* How It Works: icon only — show just the ✨ */
+  #btn-how-it-works { font-size: 1rem; letter-spacing: 0; }
+
+  .app-main { padding-top: var(--space-5); gap: var(--space-6); }
 
   .quick-actions { grid-template-columns: 1fr; }
   .action-card { flex-direction: row; align-items: center; padding: var(--space-4) var(--space-5); }
